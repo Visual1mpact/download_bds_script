@@ -31,8 +31,8 @@ copy_folders() {
     local old_version_dir="$1"
     local new_version_dir="$2"
     echo "Copying world and development_behavior_packs folders..."
-    if [ -d "$old_version_dir/world" ]; then
-        cp -r "$old_version_dir/world" "$new_version_dir/"
+    if [ -d "$old_version_dir/worlds" ]; then
+        cp -r "$old_version_dir/worlds" "$new_version_dir/"
     fi
     if [ -d "$old_version_dir/development_behavior_packs" ]; then
         cp -r "$old_version_dir/development_behavior_packs" "$new_version_dir/"
@@ -48,19 +48,27 @@ if [ -z "$latest_version" ]; then
 fi
 
 # Determine old version and new version directories
-old_version_dir=$(find . -type d -name 'bedrock-linux-*' -not -path "*$latest_version*")
-new_version_dir="$(dirname "$0")/bedrock-linux-$latest_version"
+old_version_dir=$(find . -type d -name 'bedrock-server-*' -not -path "*$latest_version*")
+new_version_dir="$(dirname "$0")/bedrock-server-$latest_version"
 
-# Verify if both old and new BDS versions exist
-if [ -n "$old_version_dir" ] && [ -d "$new_version_dir" ]; then
+# Check if old version directory exists
+if [ -n "$old_version_dir" ]; then
     echo "Found old version directory: $old_version_dir"
 
-    # Copy folders from old version directory
-    copy_folders "$old_version_dir" "$new_version_dir"
-else
-    echo "Either old version directory or new version directory is missing. Skipping folder copy."
+    # Check if old and new version directories are the same
+    if [ "$old_version_dir" == "$new_version_dir" ]; then
+        echo "Old version directory and new version directory are the same. Aborting."
+        exit 1
+    fi
 fi
 
-# Download and extract the new BDS server
+# Download the new BDS server
 download_bds "$latest_version"
+
+# Extract the new BDS server
 extract_bds "$latest_version"
+
+# Copy folders from old version directory
+if [ -n "$old_version_dir" ]; then
+    copy_folders "$old_version_dir" "$new_version_dir"
+fi
