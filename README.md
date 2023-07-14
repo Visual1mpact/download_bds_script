@@ -1,4 +1,4 @@
-# Minecraft BDS Update Script
+# Minecraft BDS Update Script (Linux)
 
 This script automates the process of downloading and updating Minecraft Bedrock Dedicated Server (BDS) to the latest version. It checks for the latest version available, downloads the updated server, and performs necessary folder copying.
 
