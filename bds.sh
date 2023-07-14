@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 # Function to retrieve the latest BDS version
 get_latest_version() {
     local api_url="https://ssk.taiyu.workers.dev/zh-hans/download/server/bedrock"
