@@ -54,10 +54,11 @@ new_version_dir="$(dirname "$0")/bedrock-server-$latest_version"
 # Check if old version directory exists
 if [ -n "$old_version_dir" ]; then
     echo "Found old version directory: $old_version_dir"
+    old_version="$(basename "$old_version_dir" | sed 's/bedrock-server-//')"
 
-    # Check if old and new version directories are the same
-    if [ "$old_version_dir" == "$new_version_dir" ]; then
-        echo "Old version directory and new version directory are the same. Aborting."
+    # Check if old and new version are the same
+    if [ "$old_version" == "$latest_version" ]; then
+        echo "Old version and new version are the same. Aborting."
         exit 1
     fi
 fi
