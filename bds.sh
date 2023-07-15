@@ -30,21 +30,12 @@ get_latest_version() {
     echo "$latest_version"
 }
 
-# Function to calculate the file size in bytes
-get_file_size() {
-    local url="$1"
-    local file_size=$(curl -sI "$url" | awk '/Content-Length/ {print $2}' | tr -d '\r')
-    echo "$file_size"
-}
-
 # Function to download the BDS server
 download_bds() {
     local version="$1"
     local download_url="https://minecraft.azureedge.net/bin-linux/bedrock-server-$version.zip"
     local download_location="$(dirname "$0")/bedrock-server-$version.zip"
     echo "Downloading Minecraft BDS version $version..."
-
-    local file_size=$(get_file_size "$download_url")
 
     # Use wget to download the file and display progress
     wget -q --show-progress -O "$download_location" "$download_url"
