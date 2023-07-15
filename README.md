@@ -22,6 +22,8 @@ This script updates the BDS (Bedrock Dedicated Server) to the latest version. It
 
 10. **cut command**: The `cut` command is used for extracting sections from lines of files. Make sure it's installed and accessible from the command line.
 
+11. **grep command**: The `grep` command is used for pattern matching and searching text. Ensure that it's installed and accessible from the command line.
+
 ## Usage
 
 1. Clone this repository to your local machine or download the script file (`bds.sh`) manually.
