@@ -1,5 +1,28 @@
 #!/bin/bash
 
+# Array of dependencies
+dependencies=("curl" "wget" "unzip")
+
+# Function to check if a command is available
+check_dependency() {
+    local command="$1"
+    if ! command -v "$command" >/dev/null 2>&1; then
+        echo "$command is not installed"
+        return 1
+    fi
+}
+
+# Check dependencies
+for dependency in "${dependencies[@]}"; do
+    check_dependency "$dependency" || missing_dependencies=true
+done
+
+# Print missing dependencies and abort if any are missing
+if [ "$missing_dependencies" = true ]; then
+    echo "Please install the missing dependencies and try again."
+    exit 1
+fi
+
 # Function to retrieve the latest BDS version
 get_latest_version() {
     local api_url="https://ssk.taiyu.workers.dev/zh-hans/download/server/bedrock"
