@@ -66,7 +66,7 @@ extract_bds() {
 copy_folders() {
     local old_version_dir="$1"
     local new_version_dir="$2"
-    echo "Copying worlds and development packs folders..."
+    echo "Copying world and development_behavior_packs folders..."
     if [ -d "$old_version_dir/worlds" ]; then
         cp -r "$old_version_dir/worlds" "$new_version_dir/"
     fi
@@ -77,6 +77,57 @@ copy_folders() {
         cp -r "$old_version_dir/development_resource_packs" "$new_version_dir/"
     fi
     echo "Copying complete."
+}
+
+# Function to compare and update server.properties
+update_server_properties() {
+    local old_version_dir="$1"
+    local new_version_dir="$2"
+    local old_properties="$old_version_dir/server.properties"
+    local new_properties="$new_version_dir/server.properties"
+
+    echo
+    echo "Comparing server.properties..."
+
+    # Read the old properties file line by line
+    while IFS='=' read -r old_key old_value <&3; do
+        # Check if the line is not a comment
+        if [[ "$old_key" != "#"* ]]; then
+            # Get the corresponding line in the new properties file
+            new_line=$(grep -E "^\s*$old_key=" "$new_properties")
+
+            # Extract the value from the new line
+            new_value=$(echo "$new_line" | cut -d'=' -f2)
+
+            # Compare the values
+            if [[ "$old_value" != "$new_value" ]]; then
+                echo
+                echo "Difference found:"
+                echo "Old: $old_key=$old_value"
+                echo "New: $new_line"
+                echo
+
+                read -p "Apply this change? (y/n): " choice
+
+                if [[ $choice == [Yy] ]]; then
+                    # Replace the line in the new properties file
+                    if [ -n "$new_line" ]; then
+                        sed -i "s|$(echo "$new_line" | sed 's/[\/&]/\\&/g')|$old_key=$old_value|" "$new_properties"
+                    else
+                        echo "$old_key=$old_value" >> "$new_properties"
+                    fi
+
+
+                    echo "Change applied."
+                else
+                    echo "Change not applied."
+                fi
+            fi
+        fi
+    done 3< <(grep -v '^#' "$old_properties" | grep -v '^\s*$')
+
+    echo
+    echo "Server properties update complete."
 }
 
 # Main script
@@ -111,4 +162,6 @@ extract_bds "$latest_version"
 # Copy folders from old version directory
 if [ -n "$old_version_dir" ]; then
     copy_folders "$old_version_dir" "$new_version_dir"
+    # Compare and update server.properties
+    update_server_properties "$old_version_dir" "$new_version_dir"
 fi
