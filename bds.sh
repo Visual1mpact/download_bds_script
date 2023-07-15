@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Array of dependencies
-dependencies=("curl" "unzip" "wget")
+dependencies=("curl" "unzip" "wget" "awk" "tr" "sort" "head" "cp" "find" "cut")
 
 # Function to check if a command is available
 check_dependency() {
