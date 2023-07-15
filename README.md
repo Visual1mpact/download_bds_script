@@ -24,6 +24,8 @@ This script updates the BDS (Bedrock Dedicated Server) to the latest version. It
 
 11. **grep command**: The `grep` command is used for pattern matching and searching text. Ensure that it's installed and accessible from the command line.
 
+12. **sed command**: The `sed` command is used for text stream editing. Ensure that it's installed and accessible from the command line.
+
 ## Usage
 
 1. Clone this repository to your local machine or download the script file (`bds.sh`) manually.
