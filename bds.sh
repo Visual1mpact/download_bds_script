@@ -66,7 +66,7 @@ extract_bds() {
 copy_folders() {
     local old_version_dir="$1"
     local new_version_dir="$2"
-    echo "Copying world and development_behavior_packs folders..."
+    echo "Copying worlds and development packs folders..."
     if [ -d "$old_version_dir/worlds" ]; then
         cp -r "$old_version_dir/worlds" "$new_version_dir/"
     fi
