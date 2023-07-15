@@ -49,7 +49,7 @@ extract_bds() {
     echo "Extraction complete."
 }
 
-# Function to copy world and development_behavior_packs folders
+# Function to copy world, development_behavior_packs, and development_resource_packs folders
 copy_folders() {
     local old_version_dir="$1"
     local new_version_dir="$2"
@@ -59,6 +59,9 @@ copy_folders() {
     fi
     if [ -d "$old_version_dir/development_behavior_packs" ]; then
         cp -r "$old_version_dir/development_behavior_packs" "$new_version_dir/"
+    fi
+    if [ -d "$old_version_dir/development_resource_packs" ]; then
+        cp -r "$old_version_dir/development_resource_packs" "$new_version_dir/"
     fi
     echo "Copying complete."
 }
