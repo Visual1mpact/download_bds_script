@@ -129,7 +129,7 @@ if [ -z "$latest_version" ]; then
 fi
 
 # Determine old version and new version directories
-old_version_dir=$(find . -type d -name 'bedrock-server-*' -not -path "*$latest_version*")
+old_version_dir=$(find . -type d -name 'bedrock-server-*' | sort -V | tail -n1)
 new_version_dir="$(dirname "$0")/bedrock-server-$latest_version"
 
 # Check if old version directory exists
